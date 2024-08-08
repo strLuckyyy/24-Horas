@@ -8,6 +8,7 @@
 
 - Os projetos têm que envolver código. Pode ser web, jogo, aplicação desktop, banco de dados, desde que envolva código está valendo.
 - As horas serão contadas utilizando o wakatime.
+- Pode ser com qualquer IDE.
 - Horas de estudo não serão cronometradas, o que significa que posso estudar quanto tempo eu quiser.
 - Caso eu termine o projeto antes das 24 horas previstas, eu posso escolher melhorá-lo ou simplesmente postar dessa forma.
 - Caso não dê tempo de terminar, devo postar mesmo assim.
