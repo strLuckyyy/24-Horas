@@ -13,7 +13,7 @@
 - Caso eu termine o projeto antes das 24 horas previstas, eu posso escolher melhorá-lo ou simplesmente postar dessa forma.
 - Caso não dê tempo de terminar, devo postar mesmo assim.
 - Posso escolher como projeto a continuação de um que já tenha feito.
-- O uso de IA será documentado, mas também deverá ser explicado o que a IA fez e por que fez.
+- O uso de IA será documentado e explicado o que a IA fez e por que fez.
 - Documentar todos os projetos.
 
 ## Objetivo
