@@ -6,7 +6,7 @@
   
     > Linguagem: Python
 
-    > Bibliotecas: Tkinter
+    > Bibliotecas: Flet (interface), sqlite3 (manipulação de banco de dados)
 
     > Banco de Dados: SQLite -> (armazenamento local)
 </div>
