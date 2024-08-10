@@ -1,4 +1,5 @@
-from com.window.window import Window
+from window.window import Window
+
 import tkinter as tk
 import os
 

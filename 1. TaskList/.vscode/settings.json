@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "tasklist.db",
+            "database": "${workspaceFolder:1. TaskList}/tasklist.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

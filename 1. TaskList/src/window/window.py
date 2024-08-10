@@ -1,4 +1,4 @@
-__package__ = "com.window"
+__package__ = 'window'
 
 import tkinter as tk
 
