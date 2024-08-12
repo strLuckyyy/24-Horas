@@ -8,9 +8,9 @@ import sqlite3
 # It receives a connection to the database, a backup file name and a file name.
 class TaskDataManager:
     # Attributes
-    __conn : sqlite3.Connection;
-    __file_conn : str;
-    __backup_file : str;
+    __conn : sqlite3.Connection
+    __file_conn : str
+    __backup_file : str
 
     # Constructor
     def __init__(self, file_conn : str = 'taskslist.db', backup_file : str = 'backup.sql'):
