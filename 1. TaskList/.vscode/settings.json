@@ -7,5 +7,5 @@
             "database": "${workspaceFolder:1. TaskList}/tasklist.db"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
 }

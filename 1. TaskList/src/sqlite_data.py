@@ -1,5 +1,3 @@
-__package__ = 'data'
-
 import io
 import sqlite3
 
@@ -14,6 +12,7 @@ class TaskDataManager:
 
     # Constructor
     def __init__(self, file_conn : str = 'taskslist.db', backup_file : str = 'backup.sql'):
+        self.__conn = sqlite3.connect(file_conn)
         self.__backup_file = backup_file
         self.__file_conn = file_conn    
 
@@ -32,20 +31,17 @@ class TaskDataManager:
     def file_conn(self, new_file_conn : str): self.__file_conn = new_file_conn
 
 
-    # Private methods -----------------------------------------------------------------------------------------------
-    # Create a connection to the database.
-    def __connection(self) -> sqlite3.Connection:
-        self.__conn = sqlite3.connect(self.__file_conn)
-        return self.__conn
-        
+    # Private methods -----------------------------------------------------------------------------------------------        
 
     # This method will connect to the database, execute the block of code passed as a parameter, commit the changes and close the connection. 
     def __base_block(self, SQLcommand: str, values: tuple = None):
-        with self.__connection() as conn: 
-            c = conn.cursor()
-            if values is None: c.execute(SQLcommand)
-            else: c.execute(SQLcommand, values)
-            self.__conn.commit()
+        try:
+            with sqlite3.connect(self.file_conn) as conn: 
+                c = conn.cursor()
+                if values is None: c.execute(SQLcommand)
+                else: c.execute(SQLcommand, values)
+                self.__conn.commit()
+        except sqlite3.Error as e: print('Error: Cannot execute the command.', e)
 
     # Public methods -----------------------------------------------------------------------------------------------
     # Create a table in the database.
@@ -102,14 +98,34 @@ class TaskDataManager:
         except sqlite3.Error as e: print('Error: Cannot delete tasks.', e)
 
 
+    # I don't understand why I need to pass the self parameter here, but dosn't work without it...I hate python sometimes.
     # Update completed task status.
     def update_check_task(self, task_id: int, completed: bool):
         try:
             self.__base_block('UPDATE Tasks SET completed = ? WHERE id = ?', (completed, task_id))
             print('Task updated successfully.')
         except sqlite3.Error as e: print('Error: Cannot update task.', e)
-        
+    
+    # Update task name and description.
+    def update_task(self, task_id: int, task_name: str, task_description: str):
+        try:
+            self.__base_block('UPDATE Tasks SET task_name = ?, task_description = ? WHERE id = ?', (task_name, task_description, task_id))
+            print('Task updated successfully.')
+        except sqlite3.Error as e: print('Error: Cannot update task.', e)
       
+    
+    # Get all tasks from the database.
+    def get_all_tasks(self) -> list:
+        try:
+            with self.__connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute('SELECT * FROM Tasks;')
+                return cursor.fetchall()
+        except sqlite3.Error as e: 
+            print('Error: Cannot get all tasks.', e)
+            return []
+
+
     # Backup/export and import data.
     def export_data(self):
         try: 
@@ -135,6 +151,7 @@ class TaskDataManager:
 
     # Show data in the console.
     def show_data_in_console(self):
-        cursor = self.__conn.cursor()
-        cursor.execute('SELECT * FROM Tasks;')
-        for row in cursor.fetchall(): print(row)
+        with self.__connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM Tasks;')
+            for row in cursor.fetchall(): print(row)
