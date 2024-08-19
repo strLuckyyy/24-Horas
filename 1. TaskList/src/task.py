@@ -4,7 +4,7 @@ import flet as ft
 import os
 
 
-# This file contains the classes responsible for saving data when changes happen and for controlling the interface more easily.
+# This class is used to build the task block.
 class Task(ft.Column):
     # Private attributes 
     __sql: TaskDataManager
@@ -21,19 +21,18 @@ class Task(ft.Column):
     __edit_view: ft.Row
 
     __task_delete: any 
-    # The attribute above will receive the task_delete(e) method from the TaskWindow class. This is necessary to delete the task from the window.
+    # The attribute above will receive the task_delete(e) method from the TaskWindow class. This is necessary for deleting the task from the window.
 
     # Constructor
     def __init__(self, task_id: int, task_title: str, task_description: str, task_delete: any, checked: bool = False):
-        # Initializing the atributtes
         super().__init__()
-        self.__sql = TaskDataManager()
+        self.__sql = TaskDataManager() # Instance of the TaskDataManager class
         self.__sql_id = task_id
 
         self.__task_title = task_title
         self.__task_description = task_description
         self.__task_delete = task_delete
-        self.__checked = bool(checked)
+        self.__checked = bool(checked) # This is necessary to convert the value to a boolean in case it is an integer.
 
         self.__edit_task_title = ""
         self.__edit_task_description = ""
@@ -53,17 +52,23 @@ class Task(ft.Column):
 
         self.controls = [self.__display_view, self.__edit_view]
     
-    # Private methods ------------------------------------------------------------
-    def __display_task_build(self) -> ft.Column: # Display build method. Putting the task's title and description in a column.
+    # Private methods 
+    def __display_task_build(self) -> ft.Column: # Display build method. This method arranges the task's title and description in a column.
         return ft.Column(
             spacing=10,
             controls=[
-                ft.Checkbox(label=self.__task_title, value=self.__checked, on_change=self.checked, label_style=ft.TextStyle(color=ft.colors.BLACK), check_color=ft.colors.BLACK),
+                ft.Checkbox(
+                    label=self.__task_title, 
+                    value=self.__checked, 
+                    on_change=self.checked, 
+                    label_style=ft.TextStyle(color=ft.colors.BLACK), 
+                    check_color=ft.colors.BLACK
+                    ),
                 ft.Text(self.__task_description, color=ft.colors.BLACK),
             ],
         )
 
-    def __display_view_build(self) -> ft.Row:
+    def __display_view_build(self) -> ft.Row: # Display view build method. This method arranges the task's display and buttons in a row.
         return ft.Row(
             alignment=ft.MainAxisAlignment.CENTER,
             vertical_alignment=ft.CrossAxisAlignment.START,
@@ -79,7 +84,7 @@ class Task(ft.Column):
             ],
         )
     
-    def __edit_view_build(self) -> ft.Row:        
+    def __edit_view_build(self) -> ft.Row: # Edit view build method. This method arranges the task's edit form and buttons in a row.     
         def text(text: str) -> ft.TextField:
             return ft.TextField(
                 hint_text=text, 
@@ -106,19 +111,14 @@ class Task(ft.Column):
     def __icon_button(self, _icon: str, _tooltip: str, _on_click: any) -> ft.IconButton:
         return ft.IconButton(icon=_icon, tooltip=_tooltip, icon_size=22, width=30, height=30, on_click=_on_click, icon_color=ft.colors.BLACK)
 
-    # Public event methods ----------------------------------------------------------
-    
-    # In theory, these methods are working. I'll test them later.
-    # These methods are supposed to update the task's status in the database.
-
-    def checked(self, e):
+    # Public event methods
+    def checked(self, e): 
         self.__sql.update_check_task(self.__sql_id, self.__display_task.controls[0].value)
         self.update()
 
     def edit_task(self, e):
         self.__display_view.visible = False
         self.__edit_view.visible = True
-
         self.update()
 
     def delete_task(self, e):
@@ -136,7 +136,6 @@ class Task(ft.Column):
         self.__edit_view.visible = False
 
         self.__sql.update_task(self.__sql_id, title, description)
-
         self.update()
 
     def cancel_task(self, e):

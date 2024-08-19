@@ -6,27 +6,25 @@ import os
 
 #
 # About the classes:
-
-# - Task: class that will reference the task card [FIXME]
-
-# - AppWindow: class that will reference the window that will contain the tasks [FIXME]
-
-# - AddWindow: class that will reference the window that will contain the form to add a new task [TODO]
-
-# - TaskDataManager: class that will reference the class that will manage the tasks in the database [x]
-
+# - Task: This class is used to build the task block.
+#
+# - AppWindow: This class is used to build the window that will contain the tasks. 
+#
+# - AddWindow: This class is used to reference the window that will contain the form to add a new task.
+#
+# - TaskDataManager: Class that manages the tasks in the database.
 #
 
-# NOTE:(04:40 AM - 16/08/24) I did complete 77% of the goal. So, maybe I let this project unfinished.
-
+# Main function
 def main(page: ft.Page):
     page.title = "Orange Task App"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
 
+    # Instance of the AppWindow class
     taskApp = AppWindow()
 
-    # add application's root control to the page
+    # Add application's root control to the page
     page.add(taskApp)
 
 if __name__ == "__main__":

@@ -1,20 +1,20 @@
 from sqlite_data import TaskDataManager as sql
 import flet as ft
 
-# TODO: class that will reference the add task window
 
+# This class is used to reference the window that will contain the form to add a new task.
 class AddWindow(ft.Column):
     # Private attributes
     __task_title: ft.TextField
     __task_description: ft.TextField
     __add_task_view: ft.Row
 
+    # The methods for the buttons below are assigned to these attributes.
     __add_event: None
     __cancel_event: None
 
     # Constructor
     def __init__(self, add_event, cancel_event, visible=False):
-        # Initializing the attributes
         super().__init__()
         self.visible = visible
         self.__add_event = add_event
@@ -28,17 +28,17 @@ class AddWindow(ft.Column):
         self.width = 600
         self.controls = [self.__add_task_view]
     
-    # Getters and Setters --------------------------------------------------------
+    # Getters
     @property
     def task_title(self) -> ft.TextField: return self.__task_title
     @property
     def task_description(self) -> ft.TextField: return self.__task_description
 
-    # Public methods ------------------------------------------------------------
+    # Public methods: These are the most controlled way to set the values.
     def title_default(self): self.__task_title.value = ""
     def description_default(self): self.__task_description.value = ""
 
-    # Private methods ------------------------------------------------------------
+    # Private methods. This method shows the form to add a new task.
     def __add_task_view_build(self) -> ft.Row:
         add_task = ft.Row([
             ft.Column([
