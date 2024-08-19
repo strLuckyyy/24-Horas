@@ -124,6 +124,7 @@ class Task(ft.Column):
     def delete_task(self, e):
         self.__sql.delete_task(self.__sql_id)
         self.__task_delete(self)
+        self.update()
 
     def save_task(self, e):
         self.__display_task.controls[0].label = self.__edit_view.controls[0].controls[0].value
