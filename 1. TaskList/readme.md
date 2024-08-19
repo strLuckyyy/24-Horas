@@ -38,15 +38,20 @@ Também tive problemas para entender os eventos(e) no geral e ralei um pouco par
 
 
 ## Uso de IA
-  Utilizei o ChatGPT para me ajudar definir o projeto, as tecnologias, o corpo do código, tirar dúvidas e pedir ajuda sobre certas partes do código, como eu estou aprendendo e não tenho um professor para me guiar utilizei a IA e as documentações para concluir o projeto. Fiquei copiando código do Chat? Não, só pedia a explicação e eu me virava com aquilo, utilizer a IA somente como ferramenta para entender melhor o que eu iria fazer.
+  Utilizei o ChatGPT para me ajudar definir o projeto, as tecnologias, o corpo do código, tirar dúvidas e pedir ajuda sobre certas partes do código, como eu estou aprendendo e não tenho um professor para me guiar utilizei a IA e as documentações para concluir o projeto. 
+  
+  Fiquei copiando código do Chat? Não, só pedia a explicação e eu me virava com aquilo, utilizer a IA somente como ferramenta para entender melhor o que eu iria fazer.
+  
   Até quis usar mais, mas o GitHub Copilot simplesmente não entendia nada de Flet, então só atrapalhava e me deixava ainda mais confuso. Entretanto, quando fui fazer os métodos da classe TaskDataManager, ele me poupou muito tempo, mas não porque eu não sabia o que fazer, mas porque era muita repetição. O próprio Copilot já sabia o que eu queria e, em um clique, eu já tinha o método. Claramente, não foi perfeito, mas era só ajustar melhor o método, corrigir uns detalhes e já estava funcionando.
 
 
 ## Conclusão
   Foi um resultado legal, nada muito bonito nem muito próximo do que eu imaginei, mas também eram só 24 horas. Acho que posso, e vou, melhorar meu entendimento geral em lógica; deixei a desejar em certos momentos e me perdi em vários. Isso provavelmente se deve ao fato de eu não querer simplesmente copiar qualquer projeto da internet, mas fazer um próprio, o que deu um certo grau de complexidade ao app. 
+  
   Aprendi bastante coisa e, como primeiro projeto, acredito estar bom.
 
 
 ## Referências (as relevantes ao menos)
 Documentação do Flet: https://flet.dev/docs/
+
 Gerenciando banco de dados SQLite3 com Python by Regis da Silva: https://pythonclub.com.br/gerenciando-banco-dados-sqlite3-python-parte1.html#conectando-e-desconectando-do-banco
