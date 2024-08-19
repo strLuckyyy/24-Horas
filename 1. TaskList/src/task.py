@@ -1,55 +1,65 @@
 from sqlite_data import TaskDataManager
+from add_window import AddWindow
 import flet as ft
 import os
+
 
 # This file contains the classes responsible for saving data when changes happen and for controlling the interface more easily.
 class Task(ft.Column):
     # Private attributes 
     __sql: TaskDataManager
     __sql_id: int
+    __checked: bool
 
     __task_title: str
     __task_description: str
     __display_task: ft.Column
     __display_view: ft.Row
 
-    __edit_task_title: ft.TextField
-    __edit_task_description: ft.TextField
+    __edit_task_title: str
+    __edit_task_description: str
     __edit_view: ft.Row
 
     __task_delete: any 
     # The attribute above will receive the task_delete(e) method from the TaskWindow class. This is necessary to delete the task from the window.
 
     # Constructor
-    def __init__(self, task_id: int, task_title: str, task_description: str, task_delete: any):
+    def __init__(self, task_id: int, task_title: str, task_description: str, task_delete: any, checked: bool = False):
         # Initializing the atributtes
         super().__init__()
         self.__sql = TaskDataManager()
-
         self.__sql_id = task_id
 
         self.__task_title = task_title
         self.__task_description = task_description
         self.__task_delete = task_delete
+        self.__checked = bool(checked)
 
-        self.__edit_task_title = ft.TextField(expand=1)
-        self.__edit_task_description = ft.TextField(expand=1)
+        self.__edit_task_title = ""
+        self.__edit_task_description = ""
         self.__edit_view = self.__edit_view_build()
 
         self.__display_task = self.__display_task_build()
-        self.__display_view = self.__display_view_build()
+        self.__display_view = ft.Container(
+            margin=10,
+            padding=10,
+            alignment=ft.alignment.center,
+            bgcolor=ft.colors.AMBER_800,
+            width=500,
+            height=100,
+            border_radius=10,
+            content=self.__display_view_build()
+        )
 
         self.controls = [self.__display_view, self.__edit_view]
-
-
     
     # Private methods ------------------------------------------------------------
     def __display_task_build(self) -> ft.Column: # Display build method. Putting the task's title and description in a column.
         return ft.Column(
             spacing=10,
             controls=[
-                ft.Checkbox(label=self.__task_title, value=False, on_change=self.checked),
-                ft.TextButton(self.__task_description, style=ft.ButtonStyle(color=ft.colors.WHITE)),
+                ft.Checkbox(label=self.__task_title, value=self.__checked, on_change=self.checked, label_style=ft.TextStyle(color=ft.colors.BLACK), check_color=ft.colors.BLACK),
+                ft.Text(self.__task_description, color=ft.colors.BLACK),
             ],
         )
 
@@ -69,30 +79,32 @@ class Task(ft.Column):
             ],
         )
     
-    def __edit_view_build(self) -> ft.Row:
-        return ft.Row(
-            visible=False,
-            alignment=ft.MainAxisAlignment.CENTER,
-            vertical_alignment=ft.CrossAxisAlignment.START,
-            spacing=150,
-            controls=[
-                ft.Column(
-                    controls=[
-                        self.__edit_task_title,
-                        self.__edit_task_description,
-                    ],
-                ),
-                ft.Column(
-                    controls=[
-                        self.__icon_button(ft.icons.SAVE, "Save", self.save_task),
-                        self.__icon_button(ft.icons.CANCEL, "Cancel", self.cancel_task),
-                    ],
-                ),
-            ],
-        )
+    def __edit_view_build(self) -> ft.Row:        
+        def text(text: str) -> ft.TextField:
+            return ft.TextField(
+                hint_text=text, 
+                width=200, 
+                height=40, 
+                text_size=12,
+                )
+        
+        display = ft.Row([
+            ft.Column([
+                text("Task Title"),
+                text("Task Description"),
+            ]),
+            ft.Column([
+                ft.IconButton(icon=ft.icons.SAVE, on_click=self.save_task),
+                ft.IconButton(icon=ft.icons.CANCEL, on_click=self.cancel_task)
+            ])
+        ], 
+        alignment=ft.MainAxisAlignment.CENTER, 
+        visible=False)
+
+        return display
     
     def __icon_button(self, _icon: str, _tooltip: str, _on_click: any) -> ft.IconButton:
-        return ft.IconButton(icon=_icon, tooltip=_tooltip, icon_size=20, width=30, height=30, on_click=_on_click)
+        return ft.IconButton(icon=_icon, tooltip=_tooltip, icon_size=22, width=30, height=30, on_click=_on_click, icon_color=ft.colors.BLACK)
 
     # Public event methods ----------------------------------------------------------
     
@@ -104,11 +116,9 @@ class Task(ft.Column):
         self.update()
 
     def edit_task(self, e):
-        self.__edit_task_title.value = self.__display_task.controls[0].label
-        self.__edit_task_description.value = self.__display_task.controls[1].text
-
         self.__display_view.visible = False
         self.__edit_view.visible = True
+
         self.update()
 
     def delete_task(self, e):
@@ -116,13 +126,16 @@ class Task(ft.Column):
         self.__task_delete(self)
 
     def save_task(self, e):
-        self.__display_task.controls[0].label = self.__edit_task_title.value
-        self.__display_task.controls[1].text = self.__edit_task_description.value
+        self.__display_task.controls[0].label = self.__edit_view.controls[0].controls[0].value
+        self.__display_task.controls[1].value = self.__edit_view.controls[0].controls[1].value
+
+        title = self.__display_task.controls[0].label
+        description = self.__display_task.controls[1].value
 
         self.__display_view.visible = True
         self.__edit_view.visible = False
 
-        self.__sql.update_task(self.__sql_id, self.__edit_task_title.value, self.__edit_task_description.value)
+        self.__sql.update_task(self.__sql_id, title, description)
 
         self.update()
 

@@ -20,14 +20,14 @@ import os
 # NOTE:(04:40 AM - 16/08/24) I did complete 77% of the goal. So, maybe I let this project unfinished.
 
 def main(page: ft.Page):
-    page.title = "Task App"
+    page.title = "Orange Task App"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
 
+    taskApp = AppWindow()
 
     # add application's root control to the page
-    page.add()
+    page.add(taskApp)
 
 if __name__ == "__main__":
     ft.app(main)
-

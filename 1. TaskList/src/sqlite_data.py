@@ -9,12 +9,16 @@ class TaskDataManager:
     __conn : sqlite3.Connection
     __file_conn : str
     __backup_file : str
+    __last_id : int
 
     # Constructor
     def __init__(self, file_conn : str = 'taskslist.db', backup_file : str = 'backup.sql'):
         self.__conn = sqlite3.connect(file_conn)
         self.__backup_file = backup_file
         self.__file_conn = file_conn    
+        self.__last_id = 1
+
+        self.create_table() # Create the table if it doesn't exist.
 
     # Getters and Setters -----------------------------------------------------------------------------------
     @property
@@ -23,6 +27,8 @@ class TaskDataManager:
     def backup_file(self) -> str: return self.__backup_file
     @property
     def file_conn(self) -> str: return self.__file_conn
+    @property
+    def last_id(self) -> int: return self.__last_id
 
     # There’s no point in setting up the new connection; it could be dangerous. It’s safer to just set a new file name.
     @backup_file.setter
@@ -75,7 +81,7 @@ class TaskDataManager:
     # Insert multiple data into the database.
     def insert_task_list(self, tasks : tuple):
         try:
-            with self.__connection() as conn:
+            with self.__conn as conn:
                 c = conn.cursor()
                 c.executemany('INSERT INTO Tasks (task_name, task_description, completed) VALUES (?, ?, False)', tasks)
                 conn.commit()
@@ -117,20 +123,19 @@ class TaskDataManager:
     # Get all tasks from the database.
     def get_all_tasks(self) -> list:
         try:
-            with self.__connection() as conn:
+            with self.__conn as conn:
                 cursor = conn.cursor()
                 cursor.execute('SELECT * FROM Tasks;')
-                return cursor.fetchall()
+            return cursor.fetchall()
         except sqlite3.Error as e: 
             print('Error: Cannot get all tasks.', e)
             return []
-
 
     # Backup/export and import data.
     def export_data(self):
         try: 
             with io.open(self.__backup_file, 'w') as f: 
-                for row in self.__connection().iterdump(): 
+                for row in self.__conn.iterdump(): 
                     f.write('%s\n' % row)
             print('Data exported successfully.')
         except sqlite3.Error as e: print('Error: Cannot export data.', e)
@@ -139,7 +144,7 @@ class TaskDataManager:
         try:
             self.drop_table(table_name) # Drop the table to avoid conflicts.
 
-            conn = self.__connection()
+            conn = self.__conn
             cursor = conn.cursor()
             with io.open(self.__backup_file, 'r') as f: 
                 cursor.executescript(f.read())
@@ -151,7 +156,7 @@ class TaskDataManager:
 
     # Show data in the console.
     def show_data_in_console(self):
-        with self.__connection() as conn:
+        with self.__conn as conn:
             cursor = conn.cursor()
             cursor.execute('SELECT * FROM Tasks;')
             for row in cursor.fetchall(): print(row)
