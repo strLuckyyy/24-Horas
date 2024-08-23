@@ -1,6 +1,6 @@
-from sqlite_data import TaskDataManager
-from app_window import AppWindow
-from task import Task
+from src.sqlite_data import TaskDataManager
+from src.app_window import AppWindow
+from src.task import Task
 import flet as ft
 import os
 

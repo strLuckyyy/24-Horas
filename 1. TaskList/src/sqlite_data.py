@@ -1,28 +1,36 @@
-import io
+import time as tm
 import sqlite3
+import io
+import sys
+import os
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 # Class responsible for facilitating the management of the SQLite database.
 # It receives a connection to the database, a backup file name and a file name.
 class TaskDataManager:
     # Private attributes
-    __conn : sqlite3.Connection
     __file_conn : str
     __backup_file : str
     __last_id : int
 
     # Constructor
     def __init__(self, file_conn : str = 'taskslist.db', backup_file : str = 'backup.sql'):
-        self.__conn = sqlite3.connect(file_conn) # Connect to the database file. If it doesn't exist, it will be created.
         self.__backup_file = backup_file
-        self.__file_conn = file_conn    
+        self.__file_conn = file_conn
         self.__last_id = 1
 
         self.create_table() # Create the table if it doesn't exist.
 
     # Getters and Setters -----------------------------------------------------------------------------------
-    @property
-    def conn(self) -> sqlite3.Connection: return self.__conn
     @property
     def backup_file(self) -> str: return self.__backup_file
     @property
@@ -30,7 +38,6 @@ class TaskDataManager:
     @property
     def last_id(self) -> int: return self.__last_id
 
-    # There’s no point in setting up the new connection; it could be dangerous. It’s safer to just set a new file name.
     @backup_file.setter
     def backup_file(self, new_backup_file : str): self.__backup_file = new_backup_file
     @file_conn.setter
@@ -41,13 +48,13 @@ class TaskDataManager:
     # This method will connect to the database, execute the block of code passed as a parameter, commit the changes and close the connection. 
     def __base_block(self, SQLcommand: str, values: tuple = None):
         try:
-            with sqlite3.connect(self.file_conn) as conn: 
+            with sqlite3.connect(resource_path(self.file_conn)) as conn: 
                 c = conn.cursor()
 
                 if values is None: c.execute(SQLcommand) # This condition is necessary to avoid errors when there are no parameters to be passed.
                 else: c.execute(SQLcommand, values)
-
-                self.__conn.commit()
+                tm.sleep(0.1)
+                conn.commit()
         except sqlite3.Error as e: print('Error: Cannot execute the command.', e)
 
 
@@ -100,10 +107,10 @@ class TaskDataManager:
     # Get all tasks from the database.
     def get_all_tasks(self) -> list:
         try:
-            with self.__conn as conn:
+            with sqlite3.connect(resource_path(self.file_conn)) as conn:
                 cursor = conn.cursor()
                 cursor.execute('SELECT * FROM Tasks;')
-            return cursor.fetchall()
+            return cursor.fetchall() 
         except sqlite3.Error as e: 
             print('Error: Cannot get all tasks.', e)
             return []
@@ -122,7 +129,7 @@ class TaskDataManager:
         try:
             self.drop_table(table_name) # Drop the table to avoid conflicts.
 
-            conn = self.__conn
+            conn = sqlite3.connect(resource_path(self.file_conn))
             cursor = conn.cursor()
             with io.open(self.__backup_file, 'r') as f: 
                 cursor.executescript(f.read())

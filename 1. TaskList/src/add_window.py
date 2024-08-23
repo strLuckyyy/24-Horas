@@ -1,4 +1,3 @@
-from sqlite_data import TaskDataManager as sql
 import flet as ft
 
 

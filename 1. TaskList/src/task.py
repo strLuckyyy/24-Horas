@@ -1,5 +1,5 @@
-from sqlite_data import TaskDataManager
-from add_window import AddWindow
+import time
+from .sqlite_data import TaskDataManager
 import flet as ft
 import os
 
@@ -123,12 +123,21 @@ class Task(ft.Column):
 
     def delete_task(self, e):
         self.__sql.delete_task(self.__sql_id)
+        time.sleep(0.1)
         self.__task_delete(self)
-        self.update()
 
     def save_task(self, e):
-        self.__display_task.controls[0].label = self.__edit_view.controls[0].controls[0].value
-        self.__display_task.controls[1].value = self.__edit_view.controls[0].controls[1].value
+        # Get the values from the edit form
+        title = self.__edit_view.controls[0].controls[0].value
+        description = self.__edit_view.controls[0].controls[1].value
+
+        # Ternary operator to prevent the user from saving empty fields
+        title = "Task Title" if title == "" else title
+        description = "Task Description" if description == "" else description
+
+        # Update the task's title and description
+        self.__display_task.controls[0].label = title
+        self.__display_task.controls[1].value = description
 
         title = self.__display_task.controls[0].label
         description = self.__display_task.controls[1].value
@@ -136,6 +145,7 @@ class Task(ft.Column):
         self.__display_view.visible = True
         self.__edit_view.visible = False
 
+        # Update the task in the database
         self.__sql.update_task(self.__sql_id, title, description)
         self.update()
 
