@@ -27,11 +27,11 @@ A classe TaskDataManager (eita nome feio) possui todos os métodos necessários 
 
 
 ## Experiência
-  Está funcionando. Demorei bastante, tive que ler bastante a documentação do Flet e quebrar bastante a cabeça em certas partes. Como eu não tinha muita prática com eventos, foi um pouco difícil entender o funcionamento de tudo e aplicar de uma forma minimamente agradável. Não compilei, mas o app funciona. Também há alguns problemas com o banco de dados; caso eu crie algo e rapidamente apague ou apenas tente mudar alguma informação, ele não atualiza. Não entendo e nem tive tempo de entender o porquê.
+  Está funcionando. Demorei bastante, tive que ler bastante a documentação do Flet e quebrar bastante a cabeça em certas partes. Como eu não tinha muita prática com eventos, foi um pouco difícil entender o funcionamento de tudo e aplicar de uma forma minimamente agradável. Não compilei, mas o app funciona. Também há alguns problemas com o banco de dados; caso eu crie algo e rapidamente apague ou apenas tente mudar alguma informação, ele não atualiza. Não entendo e nem tive tempo de entender o porquê. (Note¹: Consegui resolver o problema, está funcionando certinho agora)
 
 
 ## Problemas
-  Além do citado acima, tive alguns problemas envolvendo bugs complicados. Inicialmente, eu queria fazer com packeges separados para melhor organização. Entretanto, o Python ficava teimando que os arquivos não existiam, mesmo eu fazendo de tudo. Deve ter um detalhe muito específico que eu deixei passar, mas como eu não tinha tempo, deixei pra lá. 
+  Além do citado acima, tive alguns problemas envolvendo bugs complicados. Inicialmente, eu queria fazer com packeges separados para melhor organização. Entretanto, o Python ficava teimando que os arquivos não existiam, mesmo eu fazendo de tudo. Deve ter um detalhe muito específico que eu deixei passar, mas como eu não tinha tempo, deixei pra lá. (Note²: acredito que consegui resolver, não fiz testes muito "profundos", mas parece funcionar da forma que deixei)
   
   Outro problema foi entender como funcionava o Flet, mais especificamente a organização na janela. Bugou bastante na primeira vez, mas acho que compreendi um pouco de como funciona. 
 Também tive problemas para entender os eventos(e) no geral e ralei um pouco para resolvê-los.
