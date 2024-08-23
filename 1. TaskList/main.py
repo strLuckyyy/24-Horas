@@ -1,4 +1,4 @@
-from src.sqlite_data import TaskDataManager
+from src.sqlite_data import TaskDataManager as sql
 from src.app_window import AppWindow
 from src.task import Task
 import flet as ft
