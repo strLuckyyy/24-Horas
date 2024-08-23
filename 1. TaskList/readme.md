@@ -59,3 +59,7 @@ Também tive problemas para entender os eventos(e) no geral e ralei um pouco par
 Documentação do Flet: https://flet.dev/docs/
 
 Gerenciando banco de dados SQLite3 com Python by Regis da Silva: https://pythonclub.com.br/gerenciando-banco-dados-sqlite3-python-parte1.html#conectando-e-desconectando-do-banco
+
+Convert GUI App to Real Program - Python to exe to setup wizard by Python Simplifield: https://www.youtube.com/watch?v=p3tSLatmGvU
+
+Icons: https://icons8.com/
