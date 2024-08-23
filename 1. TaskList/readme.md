@@ -27,7 +27,7 @@ A classe TaskDataManager (eita nome feio) possui todos os métodos necessários 
 
 
 ## Experiência
-  Está funcionando. Demorei bastante, tive que ler bastante a documentação do Flet e quebrar bastante a cabeça em certas partes. Como eu não tinha muita prática com eventos, foi um pouco difícil entender o funcionamento de tudo e aplicar de uma forma minimamente agradável. Não compilei, mas o app funciona. Também há alguns problemas com o banco de dados; caso eu crie algo e rapidamente apague ou apenas tente mudar alguma informação, ele não atualiza. Não entendo e nem tive tempo de entender o porquê. 
+  Está funcionando. Demorei bastante, tive que ler bastante a documentação do Flet e quebrar bastante a cabeça em certas partes. Como eu não tinha muita prática com eventos, foi um pouco difícil entender o funcionamento de tudo e aplicar de uma forma minimamente agradável. Também há alguns problemas com o banco de dados; caso eu crie algo e rapidamente apague ou apenas tente mudar alguma informação, ele não atualiza. Não entendo e nem tive tempo de entender o porquê. 
   
 > Note¹: Consegui resolver o problema e agora está funcionando corretamente. Basicamente adicionei um timer na classe TaskDataManager, que sempre que houver qualquer alteração no app ele espera um pouco antes de fechar a conexão e atualizar a interface. Além disso, criei um método privado na classe AppWindow que atualiza as tasks na interface a cada mudança. Assim, se por algum motivo não for possível deletar, adicionar, marcar ou editar uma task, ela simplesmente não será atualizada para o usuário. Essas duas mudanças eliminaram a necessidade de atualizar o app para que as alterações sejam aplicadas.
   
