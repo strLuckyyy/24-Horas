@@ -123,7 +123,6 @@ class Task(ft.Column):
 
     def delete_task(self, e):
         self.__sql.delete_task(self.__sql_id)
-        time.sleep(0.1)
         self.__task_delete(self)
 
     def save_task(self, e):

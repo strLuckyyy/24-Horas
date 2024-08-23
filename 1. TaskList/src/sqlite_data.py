@@ -4,6 +4,8 @@ import io
 import sys
 import os
 
+# https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file 
+# by Nautilius, ballade4op52 -  2015, 2016
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
